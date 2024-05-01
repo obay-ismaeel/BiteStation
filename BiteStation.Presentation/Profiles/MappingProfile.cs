@@ -13,5 +13,7 @@ public class MappingProfile : Profile
 
         CreateMap<MenuDto, Menu>();
         CreateMap<Menu, MenuDto>();
+
+        CreateMap<IncomingItemDto, Item>();
     }
 }
