@@ -53,7 +53,7 @@ public class RestaurantsController : BaseController
         var restaurant = await _unitOfWork.Restaurants.AddAsync(restaurantToPresist);
         await _unitOfWork.CompleteAsync();
 
-        return CreatedAtAction(nameof(GetAsync), new { id = restaurant.Id }, _mapper.Map<OutgoingRestaurantDto>(restaurant) );
+        return CreatedAtAction(nameof(Get), new { id = restaurant.Id }, _mapper.Map<OutgoingRestaurantDto>(restaurant) );
     }
 
     [HttpPut("{id}")]
