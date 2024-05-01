@@ -41,16 +41,16 @@ public class RestaurantsController : BaseController
     public async Task<IActionResult> Post(IncomingRestaurantDto restaurantDto)
     {
         restaurantDto.Id = 0;
-        var restaurantToPresist = _mapper.Map<Restaurant>(restaurantDto);
+        var restaurant = _mapper.Map<Restaurant>(restaurantDto);
         
         var path = await _imageService.StoreAsync(restaurantDto.ImageFile);
 
         if(path is not null)
         {
-            restaurantToPresist.ImagePath = path;
+            restaurant.ImagePath = path;
         }
 
-        var restaurant = await _unitOfWork.Restaurants.AddAsync(restaurantToPresist);
+        await _unitOfWork.Restaurants.AddAsync(restaurant);
         await _unitOfWork.CompleteAsync();
 
         return CreatedAtAction(nameof(Get), new { id = restaurant.Id }, _mapper.Map<OutgoingRestaurantDto>(restaurant) );
