@@ -13,7 +13,7 @@ public class MenusController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync()
+    public async Task<IActionResult> GetAll()
     {
         var menus = await _unitOfWork.Menus.GetAllAsync();
         var result = menus.Select(x => _mapper.Map<MenuDto>(x));
@@ -21,7 +21,7 @@ public class MenusController : BaseController
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetAsync(int id)
+    public async Task<IActionResult> Get(int id)
     {
         var menu = await _unitOfWork.Menus.GetByIdAsync(id);
 
@@ -36,7 +36,7 @@ public class MenusController : BaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> PostAsync(MenuDto menuDto)
+    public async Task<IActionResult> Post(MenuDto menuDto)
     {
         var restaurant = await _unitOfWork.Restaurants.GetByIdAsync(menuDto.RestaurantId);
 
@@ -49,11 +49,11 @@ public class MenusController : BaseController
         var menu = await _unitOfWork.Menus.AddAsync( _mapper.Map<Menu>(menuDto) );
         await _unitOfWork.CompleteAsync();
 
-        return CreatedAtAction(nameof(GetAsync), new { id = menu.Id }, _mapper.Map<MenuDto>(menu));
+        return CreatedAtAction(nameof(Get), new { id = menu.Id }, _mapper.Map<MenuDto>(menu));
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutAsync(int id, MenuDto menuDto)
+    public async Task<IActionResult> Put(int id, MenuDto menuDto)
     {
         if (id != menuDto.Id )
         {
@@ -85,7 +85,7 @@ public class MenusController : BaseController
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteAsync(int id)
+    public async Task<IActionResult> Delete(int id)
     {
         var menu = await _unitOfWork.Menus.GetByIdAsync(id);
 

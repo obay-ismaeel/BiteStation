@@ -15,7 +15,7 @@ public class RestaurantsController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync()
+    public async Task<IActionResult> GetAll()
     {
         var restaurants = await _unitOfWork.Restaurants.GetAllAsync();
         var result = restaurants.Select(x => _mapper.Map<OutgoingRestaurantDto>(x));
@@ -23,7 +23,7 @@ public class RestaurantsController : BaseController
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetAsync(int id)
+    public async Task<IActionResult> Get(int id)
     {
         var restaurant = await _unitOfWork.Restaurants.GetByIdAsync(id);
 
@@ -38,7 +38,7 @@ public class RestaurantsController : BaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> PostAsync(IncomingRestaurantDto restaurantDto)
+    public async Task<IActionResult> Post(IncomingRestaurantDto restaurantDto)
     {
         restaurantDto.Id = 0;
         var restaurantToPresist = _mapper.Map<Restaurant>(restaurantDto);
@@ -57,7 +57,7 @@ public class RestaurantsController : BaseController
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutAsync(int id, IncomingRestaurantDto restaurantDto)
+    public async Task<IActionResult> Put(int id, IncomingRestaurantDto restaurantDto)
     {
         if(id != restaurantDto.Id)
         {
@@ -89,7 +89,7 @@ public class RestaurantsController : BaseController
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteAsync(int id)
+    public async Task<IActionResult> Delete(int id)
     {
         var restaurant = await _unitOfWork.Restaurants.GetByIdAsync(id);
 
