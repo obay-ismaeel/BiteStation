@@ -99,4 +99,17 @@ public class MenusController : BaseController
 
         return NoContent();
     }
+
+    [HttpGet("{id}/items")]
+    public async Task<IActionResult> GetMenus(int id)
+    {
+        var menu = await _unitOfWork.Menus.FindAsync(x => x.Id == id, ["Items"]);
+
+        if (menu is null)
+            return NotFound();
+
+        var menus = menu.Items;
+
+        return Ok(menus.Select(x => _mapper.Map<OutgoingItemDto>(x)));
+    }
 }
