@@ -34,6 +34,17 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         return await _context.Set<T>().FindAsync(id);
     }
 
+    public async Task<T> FindAsync(Expression<Func<T, bool>> criteria, string[] includes = null)
+    {
+        IQueryable<T> query = _context.Set<T>();
+
+        if (includes != null)
+            foreach (var include in includes)
+                query = query.Include(include);
+
+        return await query.SingleOrDefaultAsync(criteria);
+    }
+
     public T Add(T entity)
     {
         _context.Set<T>().Add(entity);
