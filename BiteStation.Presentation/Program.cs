@@ -10,13 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Database connection config
 var conStr = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(conStr));
 
+// Rate limiter
 builder.Services.AddRateLimiter(options =>
 {
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
@@ -25,8 +27,8 @@ builder.Services.AddRateLimiter(options =>
     {
         options.Window = TimeSpan.FromSeconds(5);
         options.QueueLimit = 10;
-        options.PermitLimit = 10;
-        options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        options.PermitLimit = 50;
+        options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst; //this is the default
     });
 });
 
