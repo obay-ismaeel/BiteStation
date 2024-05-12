@@ -27,7 +27,7 @@ public class RestaurantsController : BaseController
     {
         var restaurant = await _unitOfWork.Restaurants.GetByIdAsync(id);
 
-        if(restaurant is null)
+        if (restaurant is null)
         {
             return NotFound();
         }
@@ -42,10 +42,10 @@ public class RestaurantsController : BaseController
     {
         restaurantDto.Id = 0;
         var restaurant = _mapper.Map<Restaurant>(restaurantDto);
-        
+
         var path = await _imageService.StoreAsync(restaurantDto.ImageFile);
 
-        if(path is not null)
+        if (path is not null)
         {
             restaurant.ImagePath = path;
         }
@@ -53,20 +53,20 @@ public class RestaurantsController : BaseController
         await _unitOfWork.Restaurants.AddAsync(restaurant);
         await _unitOfWork.CompleteAsync();
 
-        return CreatedAtAction(nameof(Get), new { id = restaurant.Id }, _mapper.Map<OutgoingRestaurantDto>(restaurant) );
+        return CreatedAtAction(nameof(Get), new { id = restaurant.Id }, _mapper.Map<OutgoingRestaurantDto>(restaurant));
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> Put(int id, IncomingRestaurantDto restaurantDto)
     {
-        if(id != restaurantDto.Id)
+        if (id != restaurantDto.Id)
         {
             return BadRequest();
         }
 
         var restaurant = await _unitOfWork.Restaurants.GetByIdAsync(id);
 
-        if(restaurant is null)
+        if (restaurant is null)
         {
             return NotFound();
         }
@@ -76,7 +76,7 @@ public class RestaurantsController : BaseController
         restaurant.Location = restaurantDto.Location;
         restaurant.UpdatedAt = DateTime.UtcNow;
 
-        if(restaurantDto.ImageFile is not null)
+        if (restaurantDto.ImageFile is not null)
         {
             _imageService.Delete(restaurant.ImagePath);
             var path = await _imageService.StoreAsync(restaurantDto.ImageFile);
@@ -93,7 +93,7 @@ public class RestaurantsController : BaseController
     {
         var restaurant = await _unitOfWork.Restaurants.GetByIdAsync(id);
 
-        if(restaurant is null)
+        if (restaurant is null)
         {
             return NotFound();
         }
@@ -114,7 +114,7 @@ public class RestaurantsController : BaseController
             return NotFound();
 
         var menus = restaurant.Menus;
-        
-        return Ok( menus.Select( x => _mapper.Map<MenuDto>(x) ) ); 
+
+        return Ok(menus.Select(x => _mapper.Map<MenuDto>(x)));
     }
 }

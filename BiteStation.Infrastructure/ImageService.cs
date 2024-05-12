@@ -26,8 +26,11 @@ public class ImageService : IImageService
         return filePath;
     }
 
-    public void Delete(string filePath)
+    public void Delete(string? filePath)
     {
+        if (string.IsNullOrWhiteSpace(filePath))
+            return;
+
         var fullPath = Path.Combine(FileSettings.WebRootPath, filePath);
         File.Delete(fullPath);
     }

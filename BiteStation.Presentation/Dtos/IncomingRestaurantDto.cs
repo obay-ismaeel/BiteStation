@@ -11,5 +11,5 @@ public class IncomingRestaurantDto
     public string? Location { get; set; }
     [MaxFileSize(FileSettings.MaxFileSizeInBytes)]
     [AllowedExtensions(FileSettings.AllowedExtensions)]
-    public IFormFile ImageFile { get; set; }
+    public IFormFile? ImageFile { get; set; }
 }
