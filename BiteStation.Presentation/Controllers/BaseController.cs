@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BiteStation.Domain.Abstractions;
 using BiteStation.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 
@@ -9,6 +10,7 @@ namespace BiteStation.Presentation.Controllers;
 [ApiController]
 [Route("[controller]")]
 [EnableRateLimiting("fixed")]
+[Authorize]
 public class BaseController : ControllerBase
 {
     public readonly IUnitOfWork _unitOfWork;
