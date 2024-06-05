@@ -1,4 +1,4 @@
-﻿namespace BiteStation.Presentation.Dtos;
+﻿namespace BiteStation.Domain.Dtos;
 
 public class MenuDto
 {

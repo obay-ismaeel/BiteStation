@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using BiteStation.Domain.Abstractions;
+using BiteStation.Domain.Dtos;
 using BiteStation.Domain.Models;
-using BiteStation.Presentation.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BiteStation.Presentation.Controllers;
 
+[Authorize]
 public class ItemsController : BaseController
 {
     public ItemsController(IUnitOfWork unitOfWork, IMapper mapper, IImageService imageService) : base(unitOfWork, mapper, imageService)

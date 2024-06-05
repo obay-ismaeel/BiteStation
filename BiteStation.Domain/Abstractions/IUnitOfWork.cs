@@ -9,5 +9,6 @@ public interface IUnitOfWork
     IBaseRepository<Item> Items { get; }
     IBaseRepository<Order> Orders { get; }
     IBaseRepository<OrderItem> OrderItems { get; }
+    IBaseRepository<Cart> Carts { get; }
     Task<int> CompleteAsync();
 }

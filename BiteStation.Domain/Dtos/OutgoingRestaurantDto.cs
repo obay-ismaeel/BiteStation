@@ -1,7 +1,4 @@
-﻿using BiteStation.Domain.Models;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-
-namespace BiteStation.Presentation.Dtos;
+﻿namespace BiteStation.Domain.Dtos;
 
 public class OutgoingRestaurantDto
 {

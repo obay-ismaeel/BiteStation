@@ -6,17 +6,14 @@ namespace BiteStation.Infrastructure.Data;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly AppDbContext _context;
+
     public IBaseRepository<User> Users { get; private set; }
-
     public IBaseRepository<Restaurant> Restaurants { get; private set; }
-
     public IBaseRepository<Menu> Menus { get; private set; }
-
     public IBaseRepository<Item> Items { get; private set; }
-
     public IBaseRepository<Order> Orders { get; private set; }
-
     public IBaseRepository<OrderItem> OrderItems { get; private set; }
+    public IBaseRepository<Cart> Carts { get; private set; }
 
     public UnitOfWork(AppDbContext context)
     {
@@ -27,6 +24,7 @@ public class UnitOfWork : IUnitOfWork
         Items = new BaseRepository<Item>(context);
         Orders = new BaseRepository<Order>(context);
         OrderItems = new BaseRepository<OrderItem>(context);
+        Carts = new BaseRepository<Cart>(context);
     }
 
     public async Task<int> CompleteAsync()

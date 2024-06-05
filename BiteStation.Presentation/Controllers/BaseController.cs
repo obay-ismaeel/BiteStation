@@ -10,7 +10,6 @@ namespace BiteStation.Presentation.Controllers;
 [ApiController]
 [Route("[controller]")]
 [EnableRateLimiting("fixed")]
-[Authorize]
 public class BaseController : ControllerBase
 {
     public readonly IUnitOfWork _unitOfWork;

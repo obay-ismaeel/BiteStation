@@ -1,13 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace BiteStation.Domain.Dtos;
 
-namespace BiteStation.Presentation.Dtos;
-
-public class IncomingItemDto
+public class OutgoingItemDto
 {
     public int Id { get; set; }
     public string? Name { get; set; }
     public string? Description { get; set; }
     public decimal Price { get; set; }
-    public IFormFile? ImageFile { get; set; }
+    public string? ImagePath{ get; set; }
     public int MenuId { get; set; }
 }

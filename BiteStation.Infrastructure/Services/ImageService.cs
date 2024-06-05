@@ -2,7 +2,7 @@
 using BiteStation.Domain.Constants;
 using Microsoft.AspNetCore.Http;
 
-namespace BiteStation.Infrastructure;
+namespace BiteStation.Infrastructure.Services;
 public class ImageService : IImageService
 {
     public async Task<string> StoreAsync(IFormFile image)

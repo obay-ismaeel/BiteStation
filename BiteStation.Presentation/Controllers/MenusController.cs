@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BiteStation.Domain.Abstractions;
+using BiteStation.Domain.Dtos;
 using BiteStation.Domain.Models;
-using BiteStation.Presentation.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BiteStation.Presentation.Controllers;

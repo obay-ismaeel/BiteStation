@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using BiteStation.Domain.Dtos;
 using BiteStation.Domain.Models;
-using BiteStation.Presentation.Dtos;
 
 namespace BiteStation.Presentation.Profiles;
 

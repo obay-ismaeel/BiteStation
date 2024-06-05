@@ -1,7 +1,8 @@
 ﻿using BiteStation.Domain.Attributes;
 using BiteStation.Domain.Constants;
+using Microsoft.AspNetCore.Http;
 
-namespace BiteStation.Presentation.Dtos;
+namespace BiteStation.Domain.Dtos;
 
 public class IncomingRestaurantDto
 {

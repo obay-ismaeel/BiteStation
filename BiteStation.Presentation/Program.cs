@@ -1,11 +1,15 @@
 using BiteStation.Domain.Abstractions;
 using BiteStation.Domain.Models;
-using BiteStation.Infrastructure;
+using BiteStation.Domain.Settings;
 using BiteStation.Infrastructure.Data;
+using BiteStation.Infrastructure.Services;
 using BiteStation.Presentation.Helpers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +24,10 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
     builder.Services.AddScoped<IImageService, ImageService>();
+    builder.Services.AddScoped<IEmailService, EmailService>();
+    builder.Services.AddScoped<IUserService, UserService>();
+
+    builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
     // Database connection config
     var conStr = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -40,13 +48,35 @@ var builder = WebApplication.CreateBuilder(args);
     });
 
     // Auth config
-    builder.Services.AddAuthorization();
-    builder.Services.AddAuthentication()
-        .AddBearerToken(IdentityConstants.BearerScheme);
+    builder.Services.AddIdentity<User, IdentityRole>(options =>
+    {
+        options.Password.RequireDigit = true;
+        options.Password.RequireLowercase = true;
+        options.Password.RequiredLength = 5;
+    }).AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 
-    builder.Services.AddIdentityCore<User>()
-        .AddEntityFrameworkStores<AppDbContext>()
-        .AddApiEndpoints();
+    var jwtOptionsSection = builder.Configuration.GetSection("JwtOptions");
+    builder.Services.Configure<JwtOptions>(jwtOptionsSection);
+    var jwtOptions = jwtOptionsSection.Get<JwtOptions>();
+
+    builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    }).AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = true,
+            ValidateIssuer = true,
+            ValidAudience = jwtOptions.Audience,
+            ValidIssuer = jwtOptions.Issuer,
+            RequireExpirationTime = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key)),
+            ValidateIssuerSigningKey = true
+        };
+    });
 }
 
 var app = builder.Build();
@@ -58,7 +88,7 @@ var app = builder.Build();
         app.UseSwagger();
         app.UseSwaggerUI();
 
-        app.ApplyMigrations();
+        //app.ApplyMigrations();
     }
 
     app.UseHttpsRedirection();
@@ -70,8 +100,6 @@ var app = builder.Build();
     app.UseStaticFiles();
 
     app.MapControllers();
-
-    app.MapIdentityApi<User>();
 }
 
 app.Run();

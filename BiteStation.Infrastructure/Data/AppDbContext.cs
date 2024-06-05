@@ -10,6 +10,7 @@ public class AppDbContext : IdentityDbContext<User>
     public DbSet<Menu> Menus { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderItem> OrderItems { get; set; }
+    public DbSet<Cart> Carts { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
